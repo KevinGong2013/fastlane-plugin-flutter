@@ -50,6 +50,10 @@ module Fastlane
           build_args.push('--build-name', build_name.to_s)
         end
 
+        if build_flavor = (params[:build_flavor])
+          build_args.push('--flavor', build_flavor.to_s)
+        end
+
         Helper::FlutterHelper.flutter('build', *build_args) do |status, res|
           if status.success?
             if res =~ /^Built (.*?)(:? \([^)]*\))?\.$/
@@ -120,6 +124,13 @@ module Fastlane
             DESCRIPTION
             optional: true,
           ),
+          FastlaneCore::ConfigItem.new(
+            key: :build_flavor,
+            description: <<-'DESCRIPTION',
+              Set build flavor.
+            DESCRIPTION
+            optional: true,
+          )
         ]
       end
     end
