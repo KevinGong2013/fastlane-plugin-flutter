@@ -51,7 +51,11 @@ module Fastlane
         end
 
         if build_flavor = (params[:build_flavor])
-          build_args.push('--flavor', build_flavor.to_s)
+          build_args.push('--flavor', build_flavor)
+        end
+
+        if target = (params[:target])
+          build_args.push('--target', target)
         end
 
         Helper::FlutterHelper.flutter('build', *build_args) do |status, res|
@@ -130,6 +134,13 @@ module Fastlane
               Set build flavor.
             DESCRIPTION
             optional: true,
+          ),
+          FastlaneCore::ConfigItem.new(
+            key: :target,
+            description: <<-'DESCRIPTION',
+              The main entry-point file of the application
+            DESCRIPTION
+            optional: true
           )
         ]
       end
